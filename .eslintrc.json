@@ -36,7 +36,9 @@
         "tsx": "never"
       }
     ],
-    "prettier/prettier": "error"
+    "prettier/prettier": "error",
+    "@typescript-eslint/camelcase": "off",
+    "camelcase": "off"
   },
   "settings": {
     "import/resolver": {
