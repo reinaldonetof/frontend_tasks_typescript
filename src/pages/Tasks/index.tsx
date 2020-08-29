@@ -1,6 +1,7 @@
-import React, { useState, useCallback, useEffect, useMemo } from 'react';
+import React, { useState, useEffect } from 'react';
 import DatePicker from 'react-datepicker';
 import { parseISO, format } from 'date-fns';
+import { useHistory } from 'react-router-dom';
 import {
   Container,
   Card,
@@ -39,15 +40,20 @@ const Tasks: React.FC = () => {
   const [activityType, setActivityType] = useState('');
   const [toUpdateTask, setToUpdateTask] = useState<iTaskDTO | null>(null);
   const [status, setStatus] = useState('');
+  const history = useHistory();
 
   useEffect(() => {
-    ListTaskController().then(val => {
-      if (val) {
-        const sortedTasks = sortArray(val);
-        setTasks(sortedTasks);
-      }
-    });
-  }, [tasks]);
+    if (!localStorage.getItem('@intranett_token')) {
+      history.push('/');
+    } else {
+      ListTaskController().then(val => {
+        if (val) {
+          const sortedTasks = sortArray(val);
+          setTasks(sortedTasks);
+        }
+      });
+    }
+  }, [history]);
 
   const handleCreateTask = async (e: React.FormEvent) => {
     e.preventDefault();

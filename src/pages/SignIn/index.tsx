@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from 'react';
+import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Card, Title, Input, Button } from './styles';
 import LoginController from '../../controllers/LoginController';
