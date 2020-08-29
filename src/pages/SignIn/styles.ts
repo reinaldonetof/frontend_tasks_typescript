@@ -11,7 +11,6 @@ export const Card = styled.form`
   display: flex;
   width: 100%;
   max-width: 500px;
-  margin-right: 30px;
   background: #fff;
   height: 60%;
   border-radius: 50px;
