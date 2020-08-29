@@ -8,10 +8,11 @@ interface iLogin {
 const Login = async ({ email, password }: iLogin): Promise<boolean> => {
   try {
     const response = await api.post('sessions', { email, password });
-    console.log(response);
+    localStorage.setItem('@intranett_token', response.data.token);
+    localStorage.setItem('@intranett_user', JSON.stringify(response.data.user));
     return true;
   } catch (e) {
-    alert(e.message);
+    alert(e.response.data.message);
     return false;
   }
 };

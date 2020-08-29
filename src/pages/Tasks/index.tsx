@@ -3,7 +3,7 @@ import { Link, useHistory } from 'react-router-dom';
 import { Container, Card, Title, Input, Button } from './styles';
 import LoginController from '../../controllers/LoginController';
 
-const SignIn: React.FC = () => {
+const Tasks: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
@@ -39,4 +39,4 @@ const SignIn: React.FC = () => {
   );
 };
 
-export default SignIn;
+export default Tasks;

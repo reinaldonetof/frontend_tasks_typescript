@@ -1,26 +1,38 @@
 import React, { useState } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Card, Title, Input, Button } from './styles';
-import LoginController from '../../controllers/LoginController';
+import SignUpController from '../../controllers/SignUpController';
+import { validateSignUp } from '../../validators/validators';
 
-const SignIn: React.FC = () => {
+const SignUp: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
+  const [name, setName] = useState('');
 
   const history = useHistory();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = LoginController({ email, password });
-    if (result) {
-      history.push('/tasks');
+    try {
+      await validateSignUp({ email, password, name });
+      const result = await SignUpController({ email, password, name });
+      if (result) {
+        history.push('/');
+      }
+    } catch (err) {
+      alert(JSON.stringify(err.errors));
     }
   };
 
   return (
     <Container>
       <Card onSubmit={e => handleSubmit(e)}>
-        <Title>Login to tasks</Title>
+        <Title>Criar conta</Title>
+        <Input
+          placeholder="Nome"
+          value={name}
+          onChange={e => setName(e.target.value)}
+        />
         <Input
           placeholder="E-mail"
           value={email}
@@ -33,10 +45,10 @@ const SignIn: React.FC = () => {
           onChange={e => setPassword(e.target.value)}
         />
         <Button>Login</Button>
-        <Link to="/create">Criar conta</Link>
+        <Link to="/">Já possuo conta</Link>
       </Card>
     </Container>
   );
 };
 
-export default SignIn;
+export default SignUp;

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useCallback } from 'react';
 import { Link, useHistory } from 'react-router-dom';
 import { Container, Card, Title, Input, Button } from './styles';
 import LoginController from '../../controllers/LoginController';
+import { validateSignIn } from '../../validators/validators';
 
 const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');
@@ -9,11 +10,16 @@ const SignIn: React.FC = () => {
 
   const history = useHistory();
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    const result = LoginController({ email, password });
-    if (result) {
-      history.push('/tasks');
+    try {
+      await validateSignIn({ email, password });
+      const result = await LoginController({ email, password });
+      if (result) {
+        history.push('/tasks');
+      }
+    } catch (err) {
+      alert(JSON.stringify(err.errors));
     }
   };
 
@@ -23,6 +29,7 @@ const SignIn: React.FC = () => {
         <Title>Login to tasks</Title>
         <Input
           placeholder="E-mail"
+          type="email"
           value={email}
           onChange={e => setEmail(e.target.value)}
         />
@@ -33,7 +40,7 @@ const SignIn: React.FC = () => {
           onChange={e => setPassword(e.target.value)}
         />
         <Button>Login</Button>
-        <Link to="/create">Criar conta</Link>
+        <Link to="/signup">Criar conta</Link>
       </Card>
     </Container>
   );
