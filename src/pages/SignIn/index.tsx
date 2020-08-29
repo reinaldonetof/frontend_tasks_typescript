@@ -8,6 +8,8 @@ const SignIn: React.FC = () => {
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
 
+  console.log(process.env.REACT_APP_API_URL);
+
   const history = useHistory();
 
   const handleSubmit = async (e: React.FormEvent) => {
